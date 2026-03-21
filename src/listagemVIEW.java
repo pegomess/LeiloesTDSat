@@ -1,5 +1,6 @@
 
-import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -12,7 +13,24 @@ import javax.swing.table.DefaultTableModel;
  * @author Adm
  */
 public class listagemVIEW extends javax.swing.JFrame {
+ public void listarValores() {
+    try {
+        ProdutosDAO dao = new ProdutosDAO();
+        DefaultTableModel modelo = (DefaultTableModel) listaProdutos.getModel();
+        modelo.setNumRows(0);
 
+        for (ProdutosDTO p : dao.listarProdutos()) {
+            modelo.addRow(new Object[]{
+                p.getNome(),
+                p.getValor(),
+                p.getStatus()
+            });
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Erro ao listar produtos");
+    }
+}
     /**
      * Creates new form listagemVIEW
      */
@@ -208,7 +226,7 @@ public class listagemVIEW extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) listaProdutos.getModel();
             model.setNumRows(0);
             
-            ArrayList<ProdutosDTO> listagem = produtosdao.listarProdutos();
+            List<ProdutosDTO> listagem = produtosdao.listarProdutos();
             
             for(int i = 0; i < listagem.size(); i++){
                 model.addRow(new Object[]{
